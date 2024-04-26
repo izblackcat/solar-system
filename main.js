@@ -13,7 +13,7 @@ import {
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-import {createEarth, createMars, createMercury, createVenus} from "./planets/planets";
+import {createEarth, createJupiter, createMars, createMercury, createSaturn, createSaturnRing, createVenus} from "./planets/planets";
 import createMoon from "./planets/moon";
 
 
@@ -28,12 +28,12 @@ const camera = new PerspectiveCamera(
   1000
 );
 
-camera.position.set(0, 0, 40);
+camera.position.set(0, 40, 0);
 
 const renderer = new WebGLRenderer({ antialias: true });
 renderer.setSize(container.clientWidth, container.clientHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
-// renderer.shadowMap.enabled = true;
+renderer.shadowMap.enabled = true;
 container.append(renderer.domElement);
 renderer.render(scene, camera);
 
@@ -47,7 +47,7 @@ const loader = new TextureLoader();
 
 const geometry = new IcosahedronGeometry(4, 12);
 const material = new MeshStandardMaterial({
-  map: loader.load("/texture/8k_sun.jpg"),
+  map: loader.load("/8k_sun.jpg"),
 });
 
 const sun = new Mesh(geometry, material);
@@ -78,6 +78,22 @@ const marsParent = new Object3D();
 marsParent.add(mars);
 scene.add(marsParent);
 
+// jupiter:
+const jupiter = createJupiter();
+const jupiterParent = new Object3D();
+jupiterParent.add(jupiter);
+scene.add(jupiterParent);
+
+// saturn:
+const saturn = createSaturn();
+const saturnParent = new Object3D();
+saturnParent.add(saturn);
+scene.add(saturnParent);
+
+// saturn ring:
+const saturnRing = createSaturnRing();
+saturnParent.add(saturnRing);
+
 const controls = new OrbitControls(camera, renderer.domElement);
 
 function animate() {
@@ -86,14 +102,18 @@ function animate() {
 
   sun.rotation.y += 0.01;
 
-  mercuryParent.rotation.y += 0.04;
+  mercuryParent.rotation.y += 0.004;
 
-  venusParent.rotation.y += 0.03;
+  venusParent.rotation.y += 0.003;
 
-  earth.rotation.y += 0.02;
+  earth.rotation.y += 0.002;
   moon.rotation.y += 0.001;
 
-  marsParent.rotation.y += 0.02;
+  marsParent.rotation.y += 0.002;
+
+  jupiterParent.rotation.y += 0.003;
+
+  saturnParent.rotation.y += 0.0035;
 
   controls.update();
   renderer.render(scene, camera);
