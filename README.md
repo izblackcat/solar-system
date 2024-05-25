@@ -7,8 +7,8 @@ I'm currently learning & working with threejs. I was thinking about a side proje
 ## Features :
 
 - [ ] Add all planetes with their rotations and so on.
-
 - [ ] Change textures to 2k to load faster
 - [ ] Update the camera!
 - [ ] Add a stars texture to the scene
 - [ ] Update the planete rotation work arround!
+- [ ] Add stats!

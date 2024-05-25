@@ -12,40 +12,33 @@ import {
   Object3D,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import Stats from "three/examples/jsm/libs/stats.module.js";
 
-import {createEarth, createJupiter, createMars, createMercury, createSaturn, createSaturnRing, createVenus} from "./planets/planets";
+import {
+  createEarth,
+  createJupiter,
+  createMars,
+  createMercury,
+  createNeptune,
+  createSaturn,
+  createSaturnRing,
+  createUranus,
+  createVenus,
+} from "./planets/planets";
 import createMoon from "./planets/moon";
+import { addStarsToScene, initThreeJs } from "./planets/helper";
 
-
-const container = document.querySelector("#scene-container");
-
-const scene = new Scene();
-
-const camera = new PerspectiveCamera(
-  75,
-  container.clientWidth / container.clientHeight,
-  0.1,
-  1000
-);
-
-camera.position.set(0, 40, 0);
-
-const renderer = new WebGLRenderer({ antialias: true });
-renderer.setSize(container.clientWidth, container.clientHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.shadowMap.enabled = true;
-container.append(renderer.domElement);
-renderer.render(scene, camera);
-
-const ambientLight = new AmbientLight(0xffffff, 2);
-scene.add(ambientLight);
+const [scene, camera,  renderer] = initThreeJs();
 
 const loader = new TextureLoader();
 
-// earth.rotation.z = (-23.4 * Math.PI) / 180; // earth's tilt
+const stats = new Stats();
+stats.showPanel(1);
+document.body.appendChild(stats.dom);
 
 
-const geometry = new IcosahedronGeometry(4, 12);
+// sun :
+const geometry = new IcosahedronGeometry(7, 12);
 const material = new MeshStandardMaterial({
   map: loader.load("/8k_sun.jpg"),
 });
@@ -53,6 +46,9 @@ const material = new MeshStandardMaterial({
 const sun = new Mesh(geometry, material);
 sun.z = (-23.4 * Math.PI) / 180; // earth's tilt
 scene.add(sun);
+
+// stars:
+addStarsToScene(scene);
 
 //mercury :
 const mercuryParent = new Object3D();
@@ -94,29 +90,51 @@ scene.add(saturnParent);
 const saturnRing = createSaturnRing();
 saturnParent.add(saturnRing);
 
+// uranus:
+const uranusParent = new Object3D();
+const uranus = createUranus();
+uranusParent.add(uranus);
+scene.add(uranusParent);
+
+// Neptune:
+const neptuneParent = new Object3D();
+const neptune = createNeptune();
+neptuneParent.add(neptune);
+scene.add(neptuneParent);
+
 const controls = new OrbitControls(camera, renderer.domElement);
 
 function animate() {
-  requestAnimationFrame(animate);
 
-
+  stats.begin();
+  
   sun.rotation.y += 0.01;
-
+  
   mercuryParent.rotation.y += 0.004;
-
+  
   venusParent.rotation.y += 0.003;
-
+  
   earth.rotation.y += 0.002;
   moon.rotation.y += 0.001;
-
+  
   marsParent.rotation.y += 0.002;
-
+  
   jupiterParent.rotation.y += 0.003;
-
+  
   saturnParent.rotation.y += 0.0035;
-
+  
+  uranusParent.rotation.y += 0.005;
+  
+  neptuneParent.rotation.y += 0.0045;
+  
   controls.update();
+
   renderer.render(scene, camera);
+
+  stats.end();
+
+  requestAnimationFrame(animate);
 }
 
-animate();
+requestAnimationFrame( animate );
+

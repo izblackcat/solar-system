@@ -9,6 +9,6 @@ export default function createMoon() {
     map: loader.load("/2k/2k_moon.jpg"),
   });
   const moon = new Mesh(geometry, material);
-  moon.position.x = 2;
+  moon.position.x = 4;
   return moon;
 }
