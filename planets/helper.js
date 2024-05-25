@@ -1,4 +1,4 @@
-import { AmbientLight, MathUtils, Mesh, MeshStandardMaterial, PerspectiveCamera, Scene, SphereGeometry, WebGLRenderer } from "three";
+import { AmbientLight, MathUtils, Mesh, MeshBasicMaterial, MeshStandardMaterial, PerspectiveCamera, RingGeometry, Scene, SphereGeometry, WebGLRenderer } from "three";
 
 export function initThreeJs() {
   const container = document.querySelector("#scene-container");
@@ -6,12 +6,12 @@ export function initThreeJs() {
   const scene = new Scene();
 
   const camera = new PerspectiveCamera(
-    75,
+    40,
     container.clientWidth / container.clientHeight,
-    0.1,
-    1000
+    1,
+    100000
   );
-  camera.position.set(0, 40, 100);
+  camera.position.set(0, 200, 100);
 
   const renderer = new WebGLRenderer({ antialias: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
@@ -46,4 +46,15 @@ export function addStarsToScene(scene) {
     const star = createStar();
     scene.add(star);
   }
+}
+
+export function createOrbit(pos, color) {
+  const geometry = new RingGeometry(pos, pos + 0.09, 60);
+  const material = new MeshBasicMaterial({
+    color: color
+  });
+  const orbit = new Mesh(geometry, material);
+  orbit.rotation.x = -0.5 * Math.PI;
+
+  return orbit;
 }

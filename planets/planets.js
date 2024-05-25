@@ -5,6 +5,7 @@ import {
   RingGeometry,
   TextureLoader,
 } from "three";
+import { createOrbit } from "./helper";
 
 // jupiter saturn uranus neptune earth venus mars mercury
 // 6        5       4     3       2     1      0.7   0.5
@@ -20,7 +21,9 @@ export function createMercury() {
   const mercury = new Mesh(geometry, material);
 
   mercury.position.x = 10;
-  return mercury;
+  const orbit = createOrbit(mercury.position.x, 0xff55ff);
+
+  return [mercury, orbit];
 }
 
 export function createVenus() {
@@ -32,8 +35,9 @@ export function createVenus() {
   const venus = new Mesh(geometry, material);
 
   venus.position.x = 15;
+  const venusOrbit = createOrbit(venus.position.x, 0xffff00);
 
-  return venus;
+  return [venus, venusOrbit];
 }
 
 export function createEarth() {
@@ -44,17 +48,20 @@ export function createEarth() {
 
   const earth = new Mesh(geometry, material);
   earth.position.x = 25;
-  return earth;
+  const orbit = createOrbit(earth.position.x, 0xff55ff);
+  return [earth, orbit];
 }
 
 export function createMars() {
+  
   const geometry = new IcosahedronGeometry(0.8, 12);
   const material = new MeshStandardMaterial({
     map: loader.load("/2k/2k_mars.jpg"),
   });
   const mars = new Mesh(geometry, material);
   mars.position.x = 35;
-  return mars;
+  const orbit = createOrbit(mars.position.x, 0xf5f0ff);
+  return [mars, orbit];
 }
 
 export function createJupiter() {
@@ -64,7 +71,8 @@ export function createJupiter() {
   });
   const jupiter = new Mesh(geometry, material);
   jupiter.position.x = 60;
-  return jupiter;
+  const orbit = createOrbit(jupiter.position.x, 0xfffeef);
+  return [jupiter, orbit];
 }
 
 export function createSaturn() {
@@ -74,7 +82,8 @@ export function createSaturn() {
   });
   const saturn = new Mesh(geometry, material);
   saturn.position.x = 100;
-  return saturn;
+  const orbit = createOrbit(saturn.position.x, 0xff0f0f);
+  return [saturn, orbit];
 }
 
 export function createSaturnRing() {
@@ -85,7 +94,6 @@ export function createSaturnRing() {
   const ring = new Mesh(geometry, material);
   ring.position.x = 100;
   ring.rotation.x = -0.4 * Math.PI;
-  // r / pi = x / 180 => x * 180 / pi;
   return ring;
 }
 
@@ -96,7 +104,8 @@ export function createUranus() {
   });
   const uranus = new Mesh(geometry, material);
   uranus.position.x = 120;
-  return uranus;
+  const orbit = createOrbit(uranus.position.x, 0xfffddf);
+  return [uranus, orbit];
 }
 
 export function createNeptune() {
@@ -106,5 +115,6 @@ export function createNeptune() {
   });
   const neptune = new Mesh(geometry, material);
   neptune.position.x = 140;
-  return neptune;
+  const orbit = createOrbit(neptune.position.x, 0xff5f66);
+  return [neptune, orbit];
 }

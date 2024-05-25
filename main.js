@@ -1,14 +1,10 @@
 import "./style.css";
 
 import {
-  Scene,
-  PerspectiveCamera,
   Mesh,
-  WebGLRenderer,
   IcosahedronGeometry,
   MeshStandardMaterial,
   TextureLoader,
-  AmbientLight,
   Object3D,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
@@ -52,38 +48,44 @@ addStarsToScene(scene);
 
 //mercury :
 const mercuryParent = new Object3D();
-const mercury = createMercury();
+const [mercury, mercuryOrbit] = createMercury();
 scene.add(mercuryParent);
 mercuryParent.add(mercury);
+mercuryParent.add(mercuryOrbit);
 
 // venus:
 const venusParent = new Object3D();
-const venus = createVenus();
+const [venus, venusOrbit] = createVenus();
 scene.add(venusParent);
 venusParent.add(venus);
+venusParent.add(venusOrbit);
 
 // earth:
-const earth = createEarth();
+const [earth, earthOrbit] = createEarth();
 const moon = createMoon();
 earth.add(moon);
 sun.add(earth);
+sun.add(earthOrbit);
 
 // mars:
-const mars = createMars();
+const [mars, marsOrbit] = createMars();
 const marsParent = new Object3D();
 marsParent.add(mars);
+marsParent.add(marsOrbit);
 scene.add(marsParent);
 
 // jupiter:
-const jupiter = createJupiter();
+const [jupiter, jupiterOrbit] = createJupiter();
 const jupiterParent = new Object3D();
 jupiterParent.add(jupiter);
+jupiterParent.add(jupiterOrbit);
 scene.add(jupiterParent);
 
 // saturn:
-const saturn = createSaturn();
+const [saturn, saturnOrbit] = createSaturn();
 const saturnParent = new Object3D();
 saturnParent.add(saturn);
+saturnParent.add(saturnOrbit);
 scene.add(saturnParent);
 
 // saturn ring:
@@ -92,14 +94,16 @@ saturnParent.add(saturnRing);
 
 // uranus:
 const uranusParent = new Object3D();
-const uranus = createUranus();
+const [uranus, uranusOrbit] = createUranus();
 uranusParent.add(uranus);
+uranusParent.add(uranusOrbit);
 scene.add(uranusParent);
 
 // Neptune:
 const neptuneParent = new Object3D();
-const neptune = createNeptune();
+const [neptune, neptuneOrbit] = createNeptune();
 neptuneParent.add(neptune);
+neptuneParent.add(neptuneOrbit);
 scene.add(neptuneParent);
 
 const controls = new OrbitControls(camera, renderer.domElement);
